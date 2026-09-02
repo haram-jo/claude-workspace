@@ -235,6 +235,36 @@
   .contact-item-value{ font-size:15px; font-weight:600; word-break:break-word; }
   .contact-item-sub{ font-size:12.5px; color:#B9DED2; }
 
+  /* ---------- GUESTBOOK ---------- */
+  .guestbook-grid{ display:grid; grid-template-columns:1fr 1.4fr; gap:32px; align-items:start; }
+  .gb-form{
+    background:var(--surface); border:1px solid var(--line); border-radius:16px;
+    padding:26px; display:flex; flex-direction:column; gap:16px; box-shadow:var(--shadow);
+  }
+  .gb-field{ display:flex; flex-direction:column; gap:6px; }
+  .gb-field label{ font-size:12.5px; font-weight:600; color:var(--ink-soft); }
+  .gb-field input, .gb-field textarea{
+    font: inherit; font-size:14.5px; padding:10px 12px; border-radius:10px;
+    border:1px solid var(--line); background:var(--paper); color:var(--ink); resize:vertical;
+  }
+  .gb-field input:focus, .gb-field textarea:focus{
+    outline:2px solid var(--teal); outline-offset:1px; border-color:var(--teal);
+  }
+  .gb-form .btn{ align-self:flex-start; border:none; cursor:pointer; }
+  .gb-form .btn:disabled{ opacity:.6; cursor:default; }
+  .gb-status{ margin:0; font-size:13px; min-height:16px; color:var(--ink-faint); }
+  .gb-status.error{ color:var(--coral); }
+  .gb-status.success{ color:var(--teal-deep); }
+  @media (prefers-color-scheme: dark){ .gb-status.success{ color:var(--teal); } }
+
+  .gb-list{ display:flex; flex-direction:column; gap:12px; max-height:520px; overflow-y:auto; padding-right:4px; }
+  .gb-empty, .gb-loading{ font-size:14px; color:var(--ink-faint); margin:0; }
+  .gb-item{ background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:16px 18px; }
+  .gb-item-top{ display:flex; justify-content:space-between; align-items:baseline; gap:10px; margin-bottom:6px; }
+  .gb-item-name{ font-weight:700; font-size:14px; }
+  .gb-item-time{ font-size:11.5px; color:var(--ink-faint); flex:none; }
+  .gb-item-content{ margin:0; font-size:14px; color:var(--ink-soft); line-height:1.55; white-space:pre-wrap; word-break:break-word; }
+
   footer{ padding:26px 0 40px; text-align:center; font-size:12.5px; color:var(--ink-faint); }
 
   /* ---------- reveal ---------- */
@@ -252,6 +282,7 @@
     .two-col{ grid-template-columns:1fr; }
     .contact-grid{ grid-template-columns:1fr; }
     .career-meta{ text-align:left; }
+    .guestbook-grid{ grid-template-columns:1fr; }
   }
   @media (max-width:640px){
     .nav-links{
@@ -281,6 +312,7 @@
       <li><a href="#projects">프로젝트</a></li>
       <li><a href="#skills">스킬</a></li>
       <li><a href="#contact">연락처</a></li>
+      <li><a href="#guestbook">방명록</a></li>
     </ul>
   </div>
 </nav>
@@ -517,6 +549,34 @@
   </div>
 </section>
 
+<section id="guestbook">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-tag">Guestbook</span>
+      <h2>방명록</h2>
+    </div>
+
+    <div class="guestbook-grid reveal">
+      <form class="gb-form" id="gbForm">
+        <div class="gb-field">
+          <label for="gbName">이름</label>
+          <input id="gbName" name="name" type="text" maxlength="50" required placeholder="홍길동">
+        </div>
+        <div class="gb-field">
+          <label for="gbContent">메시지</label>
+          <textarea id="gbContent" name="content" maxlength="500" rows="4" required placeholder="응원 한마디 남겨주세요!"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" id="gbSubmit">남기기</button>
+        <p class="gb-status" id="gbStatus" role="status"></p>
+      </form>
+
+      <div class="gb-list" id="gbList">
+        <p class="gb-loading">불러오는 중…</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <footer>
   <div class="wrap">© 2026 Kim Soomin. Built as a personal portfolio.</div>
 </footer>
@@ -543,6 +603,100 @@
     } else {
       document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('in'); });
     }
+  })();
+</script>
+
+<!--
+  방명록(Guestbook)은 Supabase(Postgres)를 사용합니다.
+  anon key는 "공개용" 키로, RLS(Row Level Security) 정책이 실제 접근 권한을 지켜줍니다 — 절대 service_role 키는 넣지 마세요.
+  아래 URL/KEY는 supabase/messages.sql을 실행한 프로젝트의 값과 일치해야 합니다.
+-->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  (function(){
+    var SUPABASE_URL = 'https://bmmcuruiqhvgmdvodneu.supabase.co';
+    var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJtbWN1cnVpcWh2Z21kdm9kbmV1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgzMjYzODksImV4cCI6MjEwMzkwMjM4OX0.MmkV_avTradIWXwTV2BCYDWLJ91r_h73Zf3JRcIUv5A';
+
+    if (!window.supabase) {
+      document.getElementById('gbList').innerHTML = '<p class="gb-empty">Supabase 라이브러리를 불러오지 못했어요. 인터넷 연결을 확인해주세요.</p>';
+      return;
+    }
+
+    var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    var form = document.getElementById('gbForm');
+    var nameInput = document.getElementById('gbName');
+    var contentInput = document.getElementById('gbContent');
+    var submitBtn = document.getElementById('gbSubmit');
+    var status = document.getElementById('gbStatus');
+    var list = document.getElementById('gbList');
+
+    function escapeHtml(str){
+      return String(str).replace(/[&<>"']/g, function(c){
+        return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c];
+      });
+    }
+
+    function formatTime(iso){
+      var d = new Date(iso);
+      return d.toLocaleString('ko-KR', { year:'numeric', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit' });
+    }
+
+    function renderMessages(rows){
+      if (!rows || rows.length === 0) {
+        list.innerHTML = '<p class="gb-empty">아직 남겨진 메시지가 없어요. 첫 메시지를 남겨보세요!</p>';
+        return;
+      }
+      list.innerHTML = rows.map(function(row){
+        return (
+          '<div class="gb-item">' +
+            '<div class="gb-item-top">' +
+              '<span class="gb-item-name">' + escapeHtml(row.name) + '</span>' +
+              '<span class="gb-item-time num">' + formatTime(row.created_at) + '</span>' +
+            '</div>' +
+            '<p class="gb-item-content">' + escapeHtml(row.content) + '</p>' +
+          '</div>'
+        );
+      }).join('');
+    }
+
+    async function loadMessages(){
+      var res = await sb.from('messages').select('*').order('created_at', { ascending: false }).limit(50);
+      if (res.error) {
+        list.innerHTML = '<p class="gb-empty">메시지를 불러오지 못했어요. supabase/messages.sql을 먼저 실행했는지 확인해주세요. (' + res.error.message + ')</p>';
+        console.error('[guestbook] load error:', res.error);
+        return;
+      }
+      renderMessages(res.data);
+    }
+
+    form.addEventListener('submit', async function(e){
+      e.preventDefault();
+      var name = nameInput.value.trim();
+      var content = contentInput.value.trim();
+      if (!name || !content) return;
+
+      submitBtn.disabled = true;
+      status.textContent = '';
+      status.className = 'gb-status';
+
+      var res = await sb.from('messages').insert({ name: name, content: content });
+      submitBtn.disabled = false;
+
+      if (res.error) {
+        status.textContent = '전송에 실패했어요: ' + res.error.message;
+        status.className = 'gb-status error';
+        console.error('[guestbook] insert error:', res.error);
+        return;
+      }
+
+      status.textContent = '메시지가 등록되었어요!';
+      status.className = 'gb-status success';
+      form.reset();
+      loadMessages();
+    });
+
+    loadMessages();
   })();
 </script>
 

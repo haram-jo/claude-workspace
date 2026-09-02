@@ -3,6 +3,7 @@ CLAUDE.md
 README.md
 SECURITY.md
 tasks/
+supabase/
 .env
 .env.*
 docs/resume.pdf
