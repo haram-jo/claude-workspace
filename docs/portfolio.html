@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>김수민 · Marketing Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600;700;900&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F3EC;
+    --surface:#FFFFFF;
+    --surface-2:#EFEADD;
+    --ink:#16231F;
+    --ink-soft:#52645D;
+    --ink-faint:#8B978F;
+    --teal:#0E7C66;
+    --teal-deep:#0A5C4B;
+    --coral:#E2622D;
+    --line:#DED6C4;
+    --shadow: 0 1px 2px rgba(22,35,31,.04), 0 8px 24px rgba(22,35,31,.06);
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --paper:#0F1613;
+      --surface:#17211D;
+      --surface-2:#1D2822;
+      --ink:#ECE8DD;
+      --ink-soft:#A3B1A9;
+      --ink-faint:#66766D;
+      --teal:#38CFA9;
+      --teal-deep:#2AB090;
+      --coral:#F3894F;
+      --line:#293530;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 12px 32px rgba(0,0,0,.35);
+      color-scheme: dark;
+    }
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans KR', 'Malgun Gothic', -apple-system, sans-serif;
+    font-size:16px;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{ background:var(--teal); color:#fff; }
+
+  h1,h2,h3{
+    font-family:'Noto Serif KR', serif;
+    text-wrap:balance;
+    margin:0;
+    color:var(--ink);
+  }
+
+  .num{ font-family:'IBM Plex Mono', monospace; }
+
+  a{ color:inherit; }
+
+  .wrap{ max-width:960px; margin:0 auto; padding:0 28px; }
+
+  /* ---------- NAV ---------- */
+  .nav{
+    position:sticky; top:0; z-index:50;
+    background:color-mix(in srgb, var(--paper) 88%, transparent);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    max-width:960px; margin:0 auto; padding:14px 28px;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .nav-name{
+    font-family:'Noto Serif KR', serif; font-weight:700; font-size:17px; letter-spacing:.01em;
+    text-decoration:none;
+  }
+  .nav-links{ display:flex; gap:28px; list-style:none; margin:0; padding:0; }
+  .nav-links a{
+    text-decoration:none; font-size:14px; color:var(--ink-soft); font-weight:500;
+    transition:color .15s ease;
+  }
+  .nav-links a:hover, .nav-links a:focus-visible{ color:var(--teal); }
+  .nav-toggle{
+    display:none; background:none; border:1px solid var(--line); border-radius:8px;
+    width:38px; height:34px; cursor:pointer; color:var(--ink);
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{ padding:76px 0 56px; }
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace; font-size:12.5px; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--teal); font-weight:600; margin:0 0 18px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{ content:""; width:22px; height:1px; background:var(--teal); display:inline-block; }
+
+  .hero h1{ font-size:clamp(36px, 6vw, 56px); font-weight:900; line-height:1.08; }
+  .hero h1 em{ font-style:normal; color:var(--teal); }
+  .hero-role{
+    font-size:clamp(16px,2.4vw,19px); color:var(--ink-soft); margin-top:14px; max-width:56ch; font-weight:500;
+  }
+  .hero-lede{
+    margin-top:10px; color:var(--ink-soft); max-width:60ch; font-size:15.5px;
+  }
+  .hero-cta{ margin-top:28px; display:flex; gap:12px; flex-wrap:wrap; }
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:11px 20px; border-radius:999px; text-decoration:none;
+    font-weight:600; font-size:14.5px; border:1px solid transparent;
+    transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+  }
+  .btn-primary{ background:var(--teal); color:#fff; box-shadow:var(--shadow); }
+  .btn-primary:hover{ transform:translateY(-1px); background:var(--teal-deep); }
+  .btn-ghost{ border-color:var(--line); color:var(--ink); }
+  .btn-ghost:hover{ border-color:var(--teal); color:var(--teal); }
+
+  /* stat tiles */
+  .stats{
+    margin-top:48px; display:grid; grid-template-columns:repeat(4,1fr); gap:1px;
+    background:var(--line); border:1px solid var(--line); border-radius:16px; overflow:hidden;
+  }
+  .stat{ background:var(--surface); padding:22px 18px; }
+  .stat-num{ font-family:'IBM Plex Mono', monospace; font-weight:600; font-size:clamp(22px,3.2vw,28px); color:var(--coral); }
+  .stat-label{ margin-top:6px; font-size:12.5px; color:var(--ink-soft); line-height:1.4; }
+
+  /* ---------- SECTION SHELL ---------- */
+  section{ padding:64px 0; border-top:1px solid var(--line); }
+  .section-head{ display:flex; align-items:baseline; gap:16px; margin-bottom:36px; flex-wrap:wrap; }
+  .section-tag{
+    font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--ink-faint); font-weight:600;
+  }
+  .section-head h2{ font-size:clamp(24px,3.4vw,30px); font-weight:700; }
+
+  /* ---------- CAREER ---------- */
+  .career-card{
+    background:var(--surface); border:1px solid var(--line); border-radius:18px;
+    padding:30px 30px 28px; box-shadow:var(--shadow);
+  }
+  .career-card + .career-card{ margin-top:20px; }
+  .career-top{
+    display:flex; justify-content:space-between; align-items:flex-start; gap:16px; flex-wrap:wrap;
+    padding-bottom:18px; margin-bottom:18px; border-bottom:1px dashed var(--line);
+  }
+  .career-role{ font-family:'Noto Serif KR', serif; font-weight:700; font-size:20px; }
+  .career-org{ color:var(--teal); font-weight:600; font-size:14.5px; margin-top:4px; }
+  .career-meta{ text-align:right; font-size:13px; color:var(--ink-soft); }
+  .career-period{ font-family:'IBM Plex Mono', monospace; font-weight:500; color:var(--ink); }
+  .career-tag{
+    display:inline-block; margin-top:6px; font-size:12px; color:var(--ink-soft);
+    background:var(--surface-2); padding:3px 10px; border-radius:999px;
+  }
+  .career-list{ list-style:none; margin:0; padding:0; display:grid; gap:12px; }
+  .career-list li{
+    display:flex; gap:12px; font-size:14.5px; color:var(--ink-soft); line-height:1.55;
+  }
+  .career-list li::before{
+    content:""; flex:none; width:6px; height:6px; border-radius:50%; background:var(--coral);
+    margin-top:8px;
+  }
+  .career-list strong{ color:var(--ink); font-weight:600; }
+  .career-list .num{ color:var(--coral); font-weight:600; }
+
+  /* ---------- PROJECTS ---------- */
+  .projects{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+  .project-card{
+    background:var(--surface); border:1px solid var(--line); border-radius:16px;
+    padding:24px; display:flex; flex-direction:column; gap:14px;
+    transition:transform .18s ease, box-shadow .18s ease;
+  }
+  .project-card:hover{ transform:translateY(-3px); box-shadow:var(--shadow); }
+  .project-year{ font-family:'IBM Plex Mono', monospace; font-size:12.5px; color:var(--ink-faint); }
+  .project-title{ font-family:'Noto Serif KR', serif; font-weight:700; font-size:17px; line-height:1.35; }
+  .project-desc{ font-size:13.5px; color:var(--ink-soft); flex:1; }
+  .project-desc .num{ color:var(--coral); font-weight:600; }
+  .project-stack{ display:flex; flex-wrap:wrap; gap:6px; }
+  .chip{
+    font-family:'IBM Plex Mono', monospace; font-size:11.5px; color:var(--teal-deep);
+    background:color-mix(in srgb, var(--teal) 14%, transparent);
+    padding:4px 9px; border-radius:6px;
+  }
+  @media (prefers-color-scheme: dark){
+    .chip{ color:var(--teal); }
+  }
+
+  /* ---------- SKILLS ---------- */
+  .skills{ display:grid; grid-template-columns:repeat(2,1fr); gap:26px 40px; }
+  .skill-group-name{ font-size:13px; font-weight:600; color:var(--ink-faint); text-transform:uppercase; letter-spacing:.06em; margin-bottom:10px; }
+  .skill-chips{ display:flex; flex-wrap:wrap; gap:8px; }
+  .skill-chip{
+    font-size:13.5px; padding:7px 13px; border-radius:999px; border:1px solid var(--line);
+    background:var(--surface); color:var(--ink);
+  }
+
+  /* ---------- CERT + EDU ---------- */
+  .two-col{ display:grid; grid-template-columns:1.3fr 1fr; gap:40px; }
+  .cert-list{ list-style:none; margin:0; padding:0; display:grid; gap:14px; }
+  .cert-list li{
+    display:flex; justify-content:space-between; gap:16px; align-items:baseline;
+    font-size:14.5px; padding-bottom:14px; border-bottom:1px solid var(--line);
+  }
+  .cert-list li:last-child{ border-bottom:none; padding-bottom:0; }
+  .cert-year{ font-family:'IBM Plex Mono', monospace; font-size:12.5px; color:var(--ink-faint); flex:none; }
+  .edu-card{
+    background:var(--surface-2); border-radius:16px; padding:24px;
+  }
+  .edu-school{ font-family:'Noto Serif KR', serif; font-weight:700; font-size:16px; }
+  .edu-detail{ font-size:13.5px; color:var(--ink-soft); margin-top:8px; line-height:1.6; }
+  .edu-detail .num{ color:var(--ink); }
+
+  /* ---------- CONTACT (inverted band) ---------- */
+  .contact{
+    background:var(--teal-deep); color:#F4FBF9; border-top:none; padding:72px 0 60px;
+  }
+  .contact .eyebrow{ color:#9FE6CE; }
+  .contact .eyebrow::before{ background:#9FE6CE; }
+  .contact h2{ color:#fff; }
+  .contact-lede{ color:#CDE9DF; max-width:52ch; margin-top:12px; font-size:15px; }
+  .contact-grid{
+    margin-top:38px; display:grid; grid-template-columns:repeat(3,1fr); gap:1px;
+    background:rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.16); border-radius:16px; overflow:hidden;
+  }
+  .contact-item{
+    background:rgba(255,255,255,.045); padding:22px 20px; text-decoration:none; color:#fff;
+    display:flex; flex-direction:column; gap:6px; transition:background .15s ease;
+  }
+  .contact-item:hover{ background:rgba(255,255,255,.09); }
+  .contact-item-label{ font-family:'IBM Plex Mono', monospace; font-size:11.5px; letter-spacing:.1em; text-transform:uppercase; color:#9FE6CE; }
+  .contact-item-value{ font-size:15px; font-weight:600; word-break:break-word; }
+  .contact-item-sub{ font-size:12.5px; color:#B9DED2; }
+
+  footer{ padding:26px 0 40px; text-align:center; font-size:12.5px; color:var(--ink-faint); }
+
+  /* ---------- reveal ---------- */
+  .reveal{ opacity:1; transform:none; }
+  @media (prefers-reduced-motion: no-preference){
+    .reveal{ opacity:0; transform:translateY(14px); transition:opacity .5s ease, transform .5s ease; }
+    .reveal.in{ opacity:1; transform:none; }
+  }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:800px){
+    .stats{ grid-template-columns:repeat(2,1fr); }
+    .projects{ grid-template-columns:1fr; }
+    .skills{ grid-template-columns:1fr; }
+    .two-col{ grid-template-columns:1fr; }
+    .contact-grid{ grid-template-columns:1fr; }
+    .career-meta{ text-align:left; }
+  }
+  @media (max-width:640px){
+    .nav-links{
+      position:absolute; top:100%; left:0; right:0; background:var(--paper);
+      border-bottom:1px solid var(--line); flex-direction:column; gap:0; padding:8px 28px 14px;
+      display:none;
+    }
+    .nav-links.open{ display:flex; }
+    .nav-links a{ padding:10px 0; border-bottom:1px solid var(--line); }
+    .nav-links li:last-child a{ border-bottom:none; }
+    .nav-toggle{ display:block; }
+    .hero{ padding:52px 0 40px; }
+    .stats{ grid-template-columns:1fr 1fr; }
+    section{ padding:48px 0; }
+    .wrap{ padding:0 20px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-name" href="#top">김수민</a>
+    <button class="nav-toggle" id="navToggle" aria-label="메뉴 열기" aria-expanded="false">☰</button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#career">경력사항</a></li>
+      <li><a href="#projects">프로젝트</a></li>
+      <li><a href="#skills">스킬</a></li>
+      <li><a href="#contact">연락처</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <p class="eyebrow">Marketing Specialist</p>
+    <h1>퍼포먼스 데이터로<br><em>성장 곡선</em>을 설계합니다</h1>
+    <p class="hero-role">김수민 — B2B SaaS 그로스 · PLG · AI 콘텐츠 자동화 · 어트리뷰션 모델링</p>
+    <p class="hero-lede">6년간 광고 집행부터 오토메이션, 데이터 분석까지 퍼포먼스 마케팅의 전 과정을 직접 설계하고 운영해왔습니다. 숫자로 증명하는 마케팅을 지향합니다.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="#career">경력 보기</a>
+      <a class="btn btn-ghost" href="#contact">연락하기</a>
+    </div>
+
+    <div class="stats reveal">
+      <div class="stat">
+        <div class="stat-num">-38%</div>
+        <div class="stat-label">유입 CPL 절감 (6개월, 테크노바)</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">3.4%</div>
+        <div class="stat-label">유료 전환율 (2.1%에서 개선)</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">12만</div>
+        <div class="stat-label">인스타그램 팔로워 (2.5만에서 3년)</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">4.2x</div>
+        <div class="stat-label">인플루언서 캠페인 평균 ROAS</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="career">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-tag">Career</span>
+      <h2>경력사항</h2>
+    </div>
+
+    <article class="career-card reveal">
+      <div class="career-top">
+        <div>
+          <div class="career-role">마케팅 매니저</div>
+          <div class="career-org">주식회사 테크노바</div>
+        </div>
+        <div class="career-meta">
+          <div class="career-period">2022.03 — 현재</div>
+          <div class="career-tag">B2B SaaS · 시리즈 A · 임직원 50명</div>
+        </div>
+      </div>
+      <ul class="career-list">
+        <li>퍼포먼스 마케팅 총괄 — Google · Meta · Naver 광고 <strong>월 <span class="num">5,000만원</span></strong> 규모 운영</li>
+        <li>유입 CPL <span class="num">38%</span> 절감(6개월), 유료 전환율 <span class="num">2.1% → 3.4%</span> 개선</li>
+        <li>SEO 전략 수립 — 핵심 키워드 <span class="num">27개</span> 10위권 진입, 오가닉 트래픽 <span class="num">2.3배</span> 증가</li>
+        <li>콘텐츠 마케팅 — 블로그 주 3회 운영, 뉴스레터 구독자 <span class="num">8,000명</span> 확보</li>
+        <li>HubSpot 기반 마케팅 자동화 워크플로우 <span class="num">12종</span> 구축</li>
+        <li>GA4 · Amplitude · Looker Studio 대시보드 구축 및 주간 리포팅</li>
+      </ul>
+    </article>
+
+    <article class="career-card reveal">
+      <div class="career-top">
+        <div>
+          <div class="career-role">마케팅 어시스턴트</div>
+          <div class="career-org">주식회사 리브랜드</div>
+        </div>
+        <div class="career-meta">
+          <div class="career-period">2019.03 — 2022.02</div>
+          <div class="career-tag">DTC 뷰티 브랜드 · 연매출 50억</div>
+        </div>
+      </div>
+      <ul class="career-list">
+        <li>인스타그램 브랜드 계정 운영 — 팔로워 <span class="num">2.5만 → 12만</span> 증가 (3년)</li>
+        <li>인플루언서 마케팅 캠페인 <span class="num">14건</span> 진행, 평균 ROAS <span class="num">4.2배</span></li>
+        <li>신제품 런칭 캠페인 <span class="num">6건</span> 기획·집행 (시즌 한정 라인 포함)</li>
+        <li>프리랜서 디자이너 3명 오케스트레이션 및 일정 관리</li>
+      </ul>
+    </article>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-tag">Projects</span>
+      <h2>주요 프로젝트</h2>
+    </div>
+
+    <div class="projects">
+      <div class="project-card reveal">
+        <span class="project-year">2024</span>
+        <h3 class="project-title">AI 도구 기반 마케팅 생산성 개선</h3>
+        <p class="project-desc">GPT-4 API 활용 블로그 초안 생성 파이프라인 설계. 주간 콘텐츠 산출량 <span class="num">3배</span> 증가, 사내 세미나 발표.</p>
+        <div class="project-stack">
+          <span class="chip">Python</span><span class="chip">OpenAI API</span><span class="chip">Notion API</span>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <span class="project-year">2023</span>
+        <h3 class="project-title">캠페인 관리 자동화 시스템</h3>
+        <p class="project-desc">Notion + Airtable + Zapier로 캠페인 라이프사이클 자동화. 수동 리포팅 시간 주당 <span class="num">8시간 → 2.5시간</span> 단축.</p>
+        <div class="project-stack">
+          <span class="chip">Notion</span><span class="chip">Airtable</span><span class="chip">Zapier</span>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <span class="project-year">2023</span>
+        <h3 class="project-title">풀퍼널 어트리뷰션 모델 구축</h3>
+        <p class="project-desc">GA4 + Amplitude 데이터 결합, BigQuery 적재. 유료 채널별 기여도 재분석으로 예산 재분배 → ROAS <span class="num">1.7배</span> 상승.</p>
+        <div class="project-stack">
+          <span class="chip">GA4</span><span class="chip">Amplitude</span><span class="chip">BigQuery</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-tag">Skills</span>
+      <h2>보유 스킬</h2>
+    </div>
+
+    <div class="skills reveal">
+      <div>
+        <div class="skill-group-name">퍼포먼스 마케팅</div>
+        <div class="skill-chips">
+          <span class="skill-chip">Google Ads</span><span class="skill-chip">Meta Ads</span>
+          <span class="skill-chip">Naver Search</span><span class="skill-chip">Kakao Moment</span>
+        </div>
+      </div>
+      <div>
+        <div class="skill-group-name">데이터 분석</div>
+        <div class="skill-chips">
+          <span class="skill-chip">GA4</span><span class="skill-chip">Amplitude</span>
+          <span class="skill-chip">Hotjar</span><span class="skill-chip">Looker Studio</span><span class="skill-chip">Tableau</span>
+        </div>
+      </div>
+      <div>
+        <div class="skill-group-name">마케팅 오토메이션</div>
+        <div class="skill-chips">
+          <span class="skill-chip">HubSpot</span><span class="skill-chip">Mailchimp</span><span class="skill-chip">Zapier</span>
+        </div>
+      </div>
+      <div>
+        <div class="skill-group-name">콘텐츠 · SEO</div>
+        <div class="skill-chips">
+          <span class="skill-chip">카피라이팅</span><span class="skill-chip">SEO 최적화</span>
+          <span class="skill-chip">Ahrefs</span><span class="skill-chip">Notion</span><span class="skill-chip">Figma</span>
+        </div>
+      </div>
+      <div>
+        <div class="skill-group-name">기술 역량</div>
+        <div class="skill-chips">
+          <span class="skill-chip">Excel 고급</span><span class="skill-chip">SQL 기초</span><span class="skill-chip">Python (pandas)</span>
+        </div>
+      </div>
+      <div>
+        <div class="skill-group-name">언어</div>
+        <div class="skill-chips">
+          <span class="skill-chip">한국어 (원어민)</span><span class="skill-chip">영어 (비즈니스, TOEIC 925)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="cert">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-tag">Credentials</span>
+      <h2>자격증 &amp; 학력</h2>
+    </div>
+
+    <div class="two-col reveal">
+      <ul class="cert-list">
+        <li><span>Google Ads Certified — Search, Display</span><span class="cert-year">2024</span></li>
+        <li><span>Google Analytics Individual Qualification (GAIQ)</span><span class="cert-year">2023</span></li>
+        <li><span>HubSpot Inbound Marketing Certified</span><span class="cert-year">2023</span></li>
+        <li><span>패스트캠퍼스 Growth Marketing 부트캠프 수료</span><span class="cert-year">2020</span></li>
+      </ul>
+
+      <div class="edu-card">
+        <div class="edu-school">한양대학교 · 경영학과 학사</div>
+        <div class="edu-detail">
+          2015.03 — 2019.02 · 학점 <span class="num">3.8 / 4.5</span><br>
+          주요 수강: 마케팅 조사, 소비자 행동론, 디지털 마케팅, 브랜드 관리<br>
+          교내 마케팅 동아리 ABLE 38기 부회장 (2017–2018)
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="wrap">
+    <p class="eyebrow">Get in touch</p>
+    <h2>함께 성장 곡선을 그려볼까요</h2>
+    <p class="contact-lede">채용 제안, 협업 문의, 포트폴리오 관련 질문 모두 아래 채널로 편하게 연락 주세요.</p>
+
+    <div class="contact-grid">
+      <a class="contact-item" href="mailto:soomin.kim@example.com">
+        <span class="contact-item-label">Email</span>
+        <span class="contact-item-value">soomin.kim@example.com</span>
+      </a>
+      <a class="contact-item" href="tel:010-1234-5678">
+        <span class="contact-item-label">Phone</span>
+        <span class="contact-item-value">010-1234-5678</span>
+      </a>
+      <div class="contact-item">
+        <span class="contact-item-label">Location</span>
+        <span class="contact-item-value">서울특별시 마포구</span>
+      </div>
+      <a class="contact-item" href="https://soomin.example.com" target="_blank" rel="noopener">
+        <span class="contact-item-label">Portfolio</span>
+        <span class="contact-item-value">soomin.example.com</span>
+      </a>
+      <a class="contact-item" href="https://linkedin.com/in/soomin-kim" target="_blank" rel="noopener">
+        <span class="contact-item-label">LinkedIn</span>
+        <span class="contact-item-value">/in/soomin-kim</span>
+      </a>
+      <div class="contact-item">
+        <span class="contact-item-label">Interest</span>
+        <span class="contact-item-value" style="font-size:13px; font-weight:500;">B2B SaaS 그로스 · PLG · AI 콘텐츠 자동화</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">© 2026 Kim Soomin. Built as a personal portfolio.</div>
+</footer>
+
+<script>
+  (function(){
+    var toggle = document.getElementById('navToggle');
+    var links = document.getElementById('navLinks');
+    toggle.addEventListener('click', function(){
+      var open = links.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    links.querySelectorAll('a').forEach(function(a){
+      a.addEventListener('click', function(){ links.classList.remove('open'); });
+    });
+
+    if (window.matchMedia('(prefers-reduced-motion: no-preference)').matches && 'IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.12 });
+      document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+    } else {
+      document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('in'); });
+    }
+  })();
+</script>
+
+</body>
+</html>

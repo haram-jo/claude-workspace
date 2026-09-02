@@ -40,3 +40,8 @@
   - GitHub CLI(`gh`) v2.98.0 이미 설치되어 있음을 확인 (`C:\Program Files\GitHub CLI\gh.exe`, PATH는 새 세션에서 반영됨)
   - `gh auth login --web`으로 브라우저 기기 인증 진행 → 계정 `haram-jo` 로그인 완료 (프로토콜: https, 권한: repo/gist/read:org)
   - 특정 폴더의 git 저장소 초기화·push는 아직 안 함 — 어떤 폴더를 GitHub 저장소로 만들지 사용자가 나중에 결정 예정
+- 포트폴리오 웹페이지 제작 (`docs/resume.pdf` → `docs/portfolio.html`)
+  - `resume.pdf` 내용 확인: 김수민, Marketing Specialist (경력 2개 + 프로젝트 3개 + 스킬/자격증/연락처)
+  - 사용자에게 구성 방식(경력 2개+프로젝트 3개 별도 섹션 / 이력서 연락처 그대로 사용) 확인받고 진행
+  - 단일 HTML 파일로 제작 — Noto Serif KR/IBM Plex Sans KR/IBM Plex Mono 폰트, 티얼+코럴 팔레트, 라이트/다크 모드 자동 대응, 모바일 반응형(햄버거 메뉴), 히어로 핵심 지표 카드, 경력·프로젝트·스킬·자격증·학력·연락처 섹션 구성
+  - `start` 명령으로 기본 브라우저에 열어 실제 렌더링 확인 (Claude in Chrome 미설치라 스크린샷 캡처는 불가 — 사용자가 눈으로 최종 확인 필요)
