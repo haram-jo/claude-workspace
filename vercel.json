@@ -1,6 +1,5 @@
 {
-  "cleanUrls": true,
   "rewrites": [
-    { "source": "/", "destination": "/docs/portfolio.html" }
+    { "source": "/", "destination": "/portfolio.html" }
   ]
 }
