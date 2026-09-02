@@ -45,3 +45,5 @@
   - 사용자에게 구성 방식(경력 2개+프로젝트 3개 별도 섹션 / 이력서 연락처 그대로 사용) 확인받고 진행
   - 단일 HTML 파일로 제작 — Noto Serif KR/IBM Plex Sans KR/IBM Plex Mono 폰트, 티얼+코럴 팔레트, 라이트/다크 모드 자동 대응, 모바일 반응형(햄버거 메뉴), 히어로 핵심 지표 카드, 경력·프로젝트·스킬·자격증·학력·연락처 섹션 구성
   - `start` 명령으로 기본 브라우저에 열어 실제 렌더링 확인 (Claude in Chrome 미설치라 스크린샷 캡처는 불가 — 사용자가 눈으로 최종 확인 필요)
+- 🚨 GitHub 저장소(`haram-jo/claude-workspace`)가 애초 계획(private)과 달리 **Public** 상태임을 발견 — 푸시 전 사용자에게 확인
+  - 사용자가 "지금 상태(Public)로 그대로 푸시" 선택 → `docs/portfolio.html`, `docs/resume.pdf` 포함해 커밋 후 push 완료 (`b8fa473..69c0389`)

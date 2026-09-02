@@ -1,0 +1,8 @@
+# 포트폴리오 사이트 배포에 필요 없는 내부 작업 파일 (Vercel에 배포되지 않도록 제외)
+CLAUDE.md
+README.md
+SECURITY.md
+tasks/
+.env
+.env.*
+docs/resume.pdf
